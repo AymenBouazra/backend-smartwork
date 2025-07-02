@@ -24,8 +24,10 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/auth', require('./app/routes/auth.api'));
+app.use('/api/invitation', require('./app/routes/invitation.api'));
 app.use('/api/workspace', require('./app/routes/workspace.api'));
 app.use('/api/reservation', require('./app/routes/reservation.api'));
+app.use('/api/user', require('./app/routes/user.api'));
 
 // Start the server
 app.listen(port, () => {
