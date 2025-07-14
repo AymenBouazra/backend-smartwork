@@ -6,20 +6,19 @@ exports.create = async (req, res) => {
    message: "Workspace name can not be empty"
   });
  }
-
- const workspace = new Workspace({
-  name: req.body.name,
-  description: req.body.description
- });
-
  try {
-  const data = await workspace.save();
-  res.send(data);
+  await Workspace.create(req.body)
+  res.send({ message: "Workspace created successfully!" });
  } catch (err) {
   res.status(500).send({
    message: err.message || "Some error occurred while creating the Workspace."
   });
  }
+};
+
+exports.getAvailableWorkspaces = async (req, res) => {
+  const workspaces = await Workspace.find({ isAvailable: true });
+  res.json(workspaces);
 };
 
 exports.findAll = async (req, res) => {
@@ -85,7 +84,7 @@ exports.update = async (req, res) => {
  }
 };
 
-exports.delete = async (req, res) => {
+exports.deleteOne = async (req, res) => {
  try {
   const workspace = await Workspace.findByIdAndRemove(req.params.workspaceId);
   if (!workspace) {

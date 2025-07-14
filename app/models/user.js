@@ -24,6 +24,15 @@ const userSchema = new mongoose.Schema({
   default: 'Employee',
   enum: ['Manager', 'Employee'],
  },
+ profile: {
+  type: String,
+  enum:['Superviseur','Normal']
+ },
+ businessUnit: { type: mongoose.Schema.Types.ObjectId, ref: 'BusinessUnit' },
+ preferences: {
+   workLocation: { type: String, enum: ['remote', 'on-site', 'hybrid'] },
+   defaultDays: [String], // e.g., ['monday', 'tuesday']
+ }
 },
 {
  timestamps: true,
