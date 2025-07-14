@@ -5,7 +5,7 @@ const Auth = require('../models/user')
 
 passport.use(new BearerStrategy(
     (token, done) => {
-        const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+        const decodedData = jwt.verify(token, process.env.JWT_SECRET ||'secret');
         Auth.findById(decodedData.id, (err, user) => {
             if (err) { return done(err); }
             if (!user) { return done(null, false); }

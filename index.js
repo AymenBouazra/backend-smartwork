@@ -8,7 +8,7 @@ dotenv.config();
 require('./app/config/database')();
 require('./app/commun/initScript');
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
@@ -28,6 +28,8 @@ app.use('/api/invitation', require('./app/routes/invitation.api'));
 app.use('/api/workspace', require('./app/routes/workspace.api'));
 app.use('/api/reservation', require('./app/routes/reservation.api'));
 app.use('/api/user', require('./app/routes/user.api'));
+app.use('/api/dashboard', require('./app/routes/dashboard.api'));
+app.use('/api/business-units', require('./app/routes/businessUnit.api'));
 
 // Start the server
 app.listen(port, () => {

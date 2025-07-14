@@ -47,7 +47,7 @@ exports.updateUserAndLogin = async (req, res) => {
   }
   const hash = await bcrypt.hash(password, 10);
   await User.findByIdAndUpdate(id, {$set: { password: hash} }, { new: true });
-  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES });
+  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET || 'secret', { expiresIn: process.env.JWT_EXPIRES || '7d' });
   res.status(200).json({ token });
  } catch (error) {
   res.status(500).json({ message: 'Erreur serveur', error });
@@ -66,9 +66,10 @@ exports.login = async (req, res) => {
   if (!isMatch) {
    return res.status(400).json({ message: 'Identifiants invalides' });
   }
-  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES });
+  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET ||'secret', { expiresIn: process.env.JWT_EXPIRES|| '7d' });
   res.status(200).json({ token });
  } catch (error) {
+     console.log(error)
   res.status(500).json({ message: 'Erreur serveur', error });
  }
 };

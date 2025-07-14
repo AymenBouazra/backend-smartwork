@@ -1,4 +1,4 @@
-const Reservation = require('../models/reservation'); 
+const Reservation = require('../models/Reservation'); 
 
 exports.createReservation = async (req, res) => {
  try {
@@ -9,7 +9,10 @@ exports.createReservation = async (req, res) => {
  res.status(400).send(error);
  }
 };
-
+exports.getMyReservations = async (req, res) => {
+  const reservations = await Reservation.find({ user: req.user.userId }).populate('workspace');
+  res.json(reservations);
+};
 exports.getAllReservations = async (req, res) => {
  try {
  const reservations = await Reservation.find();
