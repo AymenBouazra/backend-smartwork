@@ -10,6 +10,7 @@ exports.create = async (req, res) => {
   await Workspace.create(req.body)
   res.send({ message: "Workspace created successfully!" });
  } catch (err) {
+  console.log(err)
   res.status(500).send({
    message: err.message || "Some error occurred while creating the Workspace."
   });
@@ -23,8 +24,13 @@ exports.getAvailableWorkspaces = async (req, res) => {
 
 exports.findAll = async (req, res) => {
  try {
-  const workspaces = await Workspace.find();
-  res.send(workspaces);
+  const { page, limit} = req.query;
+  const skip = (page - 1) * limit;
+  const pageNumber = parseInt(page);
+  const limitNumber = parseInt(limit);
+  const total = await Workspace.countDocuments();
+  const workspaces = await Workspace.find().skip(skip).limit(limit).sort({ createdAt: -1 }).populate('businessUnit');
+  res.send({ data: workspaces, pagination: { total, limit: limitNumber, page: pageNumber}, message: 'Espaces de travail trouvés avec succès' });
  } catch (err) {
   res.status(500).send({
    message: err.message || "Some error occurred while retrieving workspaces."
