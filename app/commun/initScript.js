@@ -9,6 +9,11 @@ User.countDocuments().then(async (usersCount) => {
                 email: 'sarraziadi@gmail.com',
                 password: '$2a$10$MDIRedaQqMwEzx78OdnOR.8ve5/W42.qDXm/GgQYkTsYfeioKmBkG',
                 role: 'Employee',
+                profile: 'Normal',
+                preferences: {
+                    workLocation: 'on-site',
+                    defaultDays: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi']
+                }
             }
         ]
         await User.create(usersToInsert);
